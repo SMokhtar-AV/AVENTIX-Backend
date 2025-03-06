@@ -28,8 +28,12 @@ public class User {
     private Card card;
 
     @ManyToOne
+    @JoinColumn(name="entreprise_id", nullable = false)
     private Entreprise entreprise;
 
     @OneToMany
     private List<Demand> listDemand;
+
+    @OneToMany(mappedBy="destinataire", cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notifications;
 }

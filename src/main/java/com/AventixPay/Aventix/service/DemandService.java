@@ -1,4 +1,8 @@
 package com.AventixPay.Aventix.service;
 
-public interface DemandService {
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class DemandService {
 }

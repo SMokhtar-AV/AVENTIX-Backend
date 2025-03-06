@@ -1,6 +1,7 @@
 package com.AventixPay.Aventix.entities;
 
 
+import com.AventixPay.Aventix.enumClass.StatutTransaction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class Transaction {
     private Long id;
     private double amount;
     private Date date;
+    private StatutTransaction statutTransaction;
 
-    @OneToOne
-    private Facture facture;
+
 }

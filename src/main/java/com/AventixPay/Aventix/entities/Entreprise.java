@@ -16,8 +16,9 @@ public class Entreprise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
 
     @OneToMany
-    private List<User> listUser;
+    private List<User> employees;
 }

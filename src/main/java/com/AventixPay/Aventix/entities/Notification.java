@@ -1,23 +1,31 @@
 package com.AventixPay.Aventix.entities;
 
 
-import com.AventixPay.Aventix.enumClass.TypeCard;
+import com.AventixPay.Aventix.enumClass.NotificationStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Demand {
+public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private TypeCard type;
     private String message;
+    private LocalDate dateNotification;
+
+    @Enumerated(EnumType.STRING)
+    private NotificationStatus notificationStatus;
 
     @ManyToOne
-    private User demandeur;
+    @JoinColumn(name="user_id")
+    private User destinataire;
+
 }

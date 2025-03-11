@@ -25,8 +25,6 @@ public class Card {
     @Column(nullable = false)
     private LocalDate validityDate;
 
-    private double solde = 0.0;
-
     private CardStatut statut = CardStatut.ACTIVE;
 
     @OneToOne(cascade = CascadeType.ALL)

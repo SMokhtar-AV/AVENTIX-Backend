@@ -48,13 +48,13 @@ public class PaymentService {
             throw new RuntimeException("Card is not active");
         }
 
-        //Vérifier si le solde de la carte est supérieure au montant fourni
-        if (card.getSolde() < paymentRequest.getMontant()) {
+        //Vérifier si le solde de l'utilisateur est supérieure au montant fourni
+        if (card.getUser().getSolde() < paymentRequest.getMontant()) {
             throw new RuntimeException("Montant not enough");
         }
 
         //Débiter le montant fourni de la carte virtuelle
-        card.setSolde(card.getSolde() - paymentRequest.getMontant());
+        card.getUser().setSolde(card.getUser().getSolde() - paymentRequest.getMontant());
         cardRepository.save(card);
 
         //Ajouter montant du menu au solde du Commercial

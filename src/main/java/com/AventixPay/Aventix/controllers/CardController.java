@@ -71,7 +71,6 @@ public class CardController {
             Card card = new Card();
             card.setCardNumber(newCardRequest.getCardNumber());
             card.setValidityDate(LocalDate.now().plusYears(3));
-            card.setSolde(1000.0);
             card.setStatut(CardStatut.ACTIVE);
             card.setUser(user.get());
             return ResponseEntity.ok(cardRepository.save(card));

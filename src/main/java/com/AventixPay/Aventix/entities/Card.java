@@ -1,14 +1,13 @@
 package com.AventixPay.Aventix.entities;
 
 
-import com.AventixPay.Aventix.enumClass.CardStatut;
+import com.AventixPay.Aventix.enumerated.CardStatut;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -26,7 +25,7 @@ public class Card {
     @Column(nullable = false)
     private LocalDate validityDate;
 
-    private Double solde = 0.0;
+    private double solde = 0.0;
 
     private CardStatut statut = CardStatut.ACTIVE;
 

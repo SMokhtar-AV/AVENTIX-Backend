@@ -1,4 +1,4 @@
-package com.AventixPay.Aventix.request;
+package com.AventixPay.Aventix.DTO;
 
 
 import lombok.Data;

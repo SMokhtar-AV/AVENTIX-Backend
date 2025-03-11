@@ -1,7 +1,7 @@
 package com.AventixPay.Aventix.entities;
 
 
-import com.AventixPay.Aventix.enumClass.TypeCard;
+import com.AventixPay.Aventix.enumerated.TypeCard;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

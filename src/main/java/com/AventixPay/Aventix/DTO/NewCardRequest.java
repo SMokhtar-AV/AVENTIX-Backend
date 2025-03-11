@@ -1,10 +1,8 @@
-package com.AventixPay.Aventix.request;
+package com.AventixPay.Aventix.DTO;
 
 
-import com.AventixPay.Aventix.enumClass.CardStatut;
+import com.AventixPay.Aventix.enumerated.CardStatut;
 import lombok.Data;
-
-import java.util.Date;
 
 
 @Data

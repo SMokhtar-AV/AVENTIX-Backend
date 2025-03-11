@@ -1,4 +1,4 @@
-package com.AventixPay.Aventix.enumClass;
+package com.AventixPay.Aventix.enumerated;
 
 public enum StatutTransaction {
     ENCOURS,REUSSIE,ECHOUE

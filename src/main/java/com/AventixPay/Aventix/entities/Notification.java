@@ -1,14 +1,13 @@
 package com.AventixPay.Aventix.entities;
 
 
-import com.AventixPay.Aventix.enumClass.NotificationStatus;
+import com.AventixPay.Aventix.enumerated.NotificationStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor

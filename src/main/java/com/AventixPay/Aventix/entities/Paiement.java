@@ -6,8 +6,6 @@ public class Paiement {
 
     private int id;
 
-
-
     @OneToOne
     private Facture facture;
 }

@@ -1,6 +1,6 @@
 package com.AventixPay.Aventix.entities;
 
-import com.AventixPay.Aventix.enumClass.Role;
+import com.AventixPay.Aventix.enumerated.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +22,7 @@ public class User {
     private String email;
     private String password;
     private String phone;
+    private double solde;
     private Role role;
 
     @OneToOne

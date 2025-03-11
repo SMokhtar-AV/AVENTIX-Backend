@@ -1,8 +1,16 @@
 package com.AventixPay.Aventix.repositories;
 
 
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import com.AventixPay.Aventix.entities.Demand;
+import com.AventixPay.Aventix.enumClass.DemandeEtat;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-@RepositoryRestResource
-public interface DemandRepository {
+import java.util.List;
+
+@Repository
+public interface DemandRepository extends JpaRepository<Demand, Long> {
+
+
+    List<Demand> findByEtat(DemandeEtat nonValide);
 }

@@ -1,8 +1,8 @@
 package com.AventixPay.Aventix.entities;
 
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.AventixPay.Aventix.enumClass.Role;
 import jakarta.persistence.*;
+import jakarta.websocket.OnError;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,14 +13,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Entreprise {
+public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, nullable = false)
-    private String name;
 
-    @OneToMany(mappedBy = "entreprise", fetch=FetchType.LAZY)
-    @JsonManagedReference
-    private List<User> listUser;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToMany(mappedBy = "role")
+    private List<User> user;
+
+
+
 }

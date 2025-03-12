@@ -4,11 +4,13 @@ package com.AventixPay.Aventix.service;
 import com.AventixPay.Aventix.XMLFile.PaymentTransactionInfo;
 import com.AventixPay.Aventix.XMLFile.XMLGenerator;
 import com.AventixPay.Aventix.entities.Card;
+import com.AventixPay.Aventix.entities.Facture;
 import com.AventixPay.Aventix.entities.Transaction;
 import com.AventixPay.Aventix.entities.User;
 import com.AventixPay.Aventix.enumerated.CardStatut;
 import com.AventixPay.Aventix.enumerated.StatutTransaction;
 import com.AventixPay.Aventix.repositories.CardRepository;
+import com.AventixPay.Aventix.repositories.FactureRepository;
 import com.AventixPay.Aventix.repositories.TransactionRepository;
 import com.AventixPay.Aventix.repositories.UserRepository;
 import com.AventixPay.Aventix.DTO.PaymentRequest;
@@ -19,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class PaymentService {
     private final CardRepository cardRepository;
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final FactureRepository factureRepository;
 
 
     // Gestion Paiement + Génération fichier XML
@@ -88,6 +90,14 @@ public class PaymentService {
 
         // Générer un fichier XML
         XMLGenerator.generateXMLFile(paymentInfo, "transaction.xml");
+
+        Facture facture = new Facture();
+        facture.setMontantTotal(paymentInfo.getMontant());
+        facture.setDate(LocalDateTime.now());
+        facture.setEmployee(card.getUser());
+        facture.setCommercial(authenticatedUser);
+        facture.setTransaction(transaction);
+        factureRepository.save(facture);
 
 
         return "Paiement réussi par carte virtuelle de :" + paymentRequest.getMontant() + "$";

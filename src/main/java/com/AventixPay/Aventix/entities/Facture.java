@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -18,19 +19,15 @@ public class Facture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDate dateCreation;
+    private LocalDateTime date;
 
-    private LocalDate dateExpiration;
+    private double montantTotal;
 
-    private String entreprise;
+    @ManyToOne
+    private User employee;
 
-    private String nomEmploye;
-
-    private Double soldeInitial;
-
-    private CardStatut cardStatut = CardStatut.ACTIVE;
-
-    private double montantTotalFacture;
+    @ManyToOne
+    private User commercial;
 
     @OneToOne
     private Transaction transaction;

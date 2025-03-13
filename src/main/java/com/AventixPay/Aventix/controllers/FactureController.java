@@ -16,12 +16,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/facture")
-@RequiredArgsConstructor
+
 public class FactureController {
 
     private final PaymentService paymentService;
 
     private final FactureRepository factureRepository;
+
+    public FactureController(PaymentService paymentService, FactureRepository factureRepository) {
+        this.paymentService = paymentService;
+        this.factureRepository = factureRepository;
+    }
 
     @GetMapping("/factures-commercial")
     @PreAuthorize("hasAuthority('ROLE_COMMERCIAL')")

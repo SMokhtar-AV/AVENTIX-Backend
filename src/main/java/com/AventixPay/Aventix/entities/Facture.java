@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -31,4 +31,52 @@ public class Facture {
 
     @OneToOne
     private Transaction transaction;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public double getMontantTotal() {
+        return montantTotal;
+    }
+
+    public void setMontantTotal(double montantTotal) {
+        this.montantTotal = montantTotal;
+    }
+
+    public User getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(User employee) {
+        this.employee = employee;
+    }
+
+    public User getCommercial() {
+        return commercial;
+    }
+
+    public void setCommercial(User commercial) {
+        this.commercial = commercial;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
 }

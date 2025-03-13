@@ -23,7 +23,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
+
 
 @RestController
 @RequestMapping("/api/card")
@@ -86,18 +86,13 @@ public class CardController {
     }
 
 
-    //Récupérer la liste des cartes par entreprise
-    @GetMapping("/{entrepriseId}/all")
-    public List<Card> findCardsByEntreprise(@PathVariable Long entrepriseId) {
-        return cardRepository.findCardsByEnterpriseId(entrepriseId);
-    }
 
 
     //Supprimer une carte par id utilisateur
     @DeleteMapping("/delete")
-    public ResponseEntity<Card> deleteCard(DeleteCardRequest deleteCardRequest) {
+    public void deleteCard(DeleteCardRequest deleteCardRequest) {
         Long idCard = deleteCardRequest.getCardId();
-        return cardRepository.deleteByID(idCard);
+        cardRepository.deleteById(idCard);
     }
 
 

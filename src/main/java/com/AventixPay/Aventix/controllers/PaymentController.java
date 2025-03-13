@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("/payment")
-@RequiredArgsConstructor
+
 public class PaymentController {
 
     private final PaymentService paymentService;
+
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 
     @PostMapping("/process")
     @PreAuthorize("hasAuthority('ROLE_COMMERCIAL')")

@@ -25,7 +25,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @XmlRootElement
 public class PaymentService {
 
@@ -34,6 +33,12 @@ public class PaymentService {
     private final UserRepository userRepository;
     private final FactureRepository factureRepository;
 
+    public PaymentService(CardRepository cardRepository, TransactionRepository transactionRepository, UserRepository userRepository, FactureRepository factureRepository) {
+        this.cardRepository = cardRepository;
+        this.transactionRepository = transactionRepository;
+        this.userRepository = userRepository;
+        this.factureRepository = factureRepository;
+    }
 
     // Gestion Paiement + Génération fichier XML
     public String processPayment(PaymentRequest paymentRequest) {

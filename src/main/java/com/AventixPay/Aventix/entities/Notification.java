@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -27,4 +27,44 @@ public class Notification {
     @JoinColumn(name="user_id")
     private User destinataire;
 
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public LocalDate getDateNotification() {
+        return dateNotification;
+    }
+
+    public void setDateNotification(LocalDate dateNotification) {
+        this.dateNotification = dateNotification;
+    }
+
+    public NotificationStatus getNotificationStatus() {
+        return notificationStatus;
+    }
+
+    public void setNotificationStatus(NotificationStatus notificationStatus) {
+        this.notificationStatus = notificationStatus;
+    }
+
+    public User getDestinataire() {
+        return destinataire;
+    }
+
+    public void setDestinataire(User destinataire) {
+        this.destinataire = destinataire;
+    }
 }

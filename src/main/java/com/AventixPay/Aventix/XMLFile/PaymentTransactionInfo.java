@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@XmlRootElement
+//@XmlRootElement
 @Data
 public class PaymentTransactionInfo {
 

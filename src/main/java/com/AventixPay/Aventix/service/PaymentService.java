@@ -13,32 +13,36 @@ import com.AventixPay.Aventix.repositories.TransactionRepository;
 import com.AventixPay.Aventix.repositories.UserRepository;
 import com.AventixPay.Aventix.DTO.PaymentRequest;
 import lombok.RequiredArgsConstructor;
-import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+//import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
+//import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import javax.xml.bind.annotation.XmlRootElement;
+/*import javax.xml.bind.annotation.XmlRootElement;*/
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@XmlRootElement
+/*@XmlRootElement*/
 public class PaymentService {
-
-    private final CardRepository cardRepository;
-    private final TransactionRepository transactionRepository;
-    private final UserRepository userRepository;
+    @Autowired
+    private  CardRepository cardRepository;
+    @Autowired
+    private TransactionRepository transactionRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
     // Gestion Paiement + Génération fichier XML
-    public String processPayment(PaymentRequest paymentRequest) {
+    public String processPayment(PaymentRequest paymentRequest, Long userId) {
 
         //Récupérer utilisateur authentifié
-        User authenticatedUser = getAuthenticatedUser();
+     //   User authenticatedUser = getAuthenticatedUser();
 
+        User user = userRepository.findById(userId).get();
         //Vérifier carte virtuelle persistante dans la bd avec serialNumber fourni
         Card card = cardRepository.findByCardNumber(paymentRequest.getCardNumber())
                 .orElseThrow(() -> new RuntimeException("Card not found"));
@@ -58,8 +62,8 @@ public class PaymentService {
         cardRepository.save(card);
 
         //Ajouter montant du menu au solde du Commercial
-        authenticatedUser.setSolde(authenticatedUser.getSolde() + paymentRequest.getMontant());
-        userRepository.save(authenticatedUser);
+        user.setSolde(user.getSolde() + paymentRequest.getMontant());
+        userRepository.save(user);
 
         //Persister une transaction dans la bd
         Transaction transaction = new Transaction();
@@ -67,7 +71,7 @@ public class PaymentService {
         transaction.setMontant(paymentRequest.getMontant());
         transaction.setStatutTransaction(StatutTransaction.ENCOURS);
         transaction.setDateTransaction(LocalDateTime.now());
-        transaction.setCommercial(authenticatedUser);
+        transaction.setCommercial(user);
         transactionRepository.save(transaction);
 
         //Objet PaymentTransactionInfo pour XML
@@ -81,9 +85,9 @@ public class PaymentService {
                 card.getStatut().toString(),
                 card.getUser().getFirstName(),
                 card.getUser().getLastName(),
-                authenticatedUser.getId(),
-                authenticatedUser.getFirstName(),
-                authenticatedUser.getLastName()
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName()
         );
 
         // Générer un fichier XML
@@ -95,7 +99,7 @@ public class PaymentService {
 
 
     //Récupérer utilisateur connecté
-    public User getAuthenticatedUser() {
+ /*   public User getAuthenticatedUser() {
 
         //Récupérer objet représentant utilisateur authentifié du contexte de sécurité
        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -112,5 +116,5 @@ public class PaymentService {
             return commercial.orElse(null);
         }
         return null;
-    }
+    }*/
 }

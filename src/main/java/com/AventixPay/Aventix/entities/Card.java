@@ -2,7 +2,7 @@ package com.AventixPay.Aventix.entities;
 
 
 import com.AventixPay.Aventix.enumerated.CardStatut;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,9 +27,71 @@ public class Card {
 
     private CardStatut statut = CardStatut.ACTIVE;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "card")
     private List<Transaction> transactionList;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public LocalDate getValidityDate() {
+        return validityDate;
+    }
+
+    public CardStatut getStatut() {
+        return statut;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public void setValidityDate(LocalDate validityDate) {
+        this.validityDate = validityDate;
+    }
+
+    public void setStatut(CardStatut statut) {
+        this.statut = statut;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "id=" + id +
+                ", cardNumber='" + cardNumber + '\'' +
+                ", validityDate=" + validityDate +
+                ", statut=" + statut +
+                ", user=" + user +
+                ", transactionList=" + transactionList +
+                '}';
+    }
 }
+

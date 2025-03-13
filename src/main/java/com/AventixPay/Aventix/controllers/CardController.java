@@ -16,14 +16,14 @@ import com.AventixPay.Aventix.DTO.UpdateCardRequest;
 import com.AventixPay.Aventix.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+// import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
+// import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
 
 @RestController
 @RequestMapping("/api/card")
@@ -59,7 +59,7 @@ public class CardController {
     //Créer une carte
     @PostMapping("/create")
     public ResponseEntity<Card> createCard(@RequestBody NewCardRequest newCardRequest) {
-        Optional<User> user = userRepository.findById(newCardRequest.getUserId());
+        Optional<User> user = userRepository.findByEmail(newCardRequest.getEmail());
 
         Notification notification = new Notification();
         notification.setMessage("Votre carte a été créée avec succès");
@@ -85,31 +85,30 @@ public class CardController {
         return cardRepository.findAll();
     }
 
-
+/*
     //Récupérer la liste des cartes par entreprise
     @GetMapping("/{entrepriseId}/all")
     public List<Card> findCardsByEntreprise(@PathVariable Long entrepriseId) {
         return cardRepository.findCardsByEnterpriseId(entrepriseId);
-    }
+    }*/
 
 
-    //Supprimer une carte par id utilisateur
     @DeleteMapping("/delete")
-    public ResponseEntity<Card> deleteCard(DeleteCardRequest deleteCardRequest) {
+    public ResponseEntity<Void> deleteCard(DeleteCardRequest deleteCardRequest) {
         Long idCard = deleteCardRequest.getCardId();
-        return cardRepository.deleteByID(idCard);
+        cardRepository.deleteById(idCard);  // Use deleteById instead of deleteByID
+        return ResponseEntity.ok().build();  // Return OK response after deletion
     }
-
 
     //Activer,Desactiver,Bloquer Carte
     @PostMapping("/updateCardStatut")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String updateCardStatut(@RequestBody UpdateCardRequest updateCardRequest) {
 
         //Récupération du propriétaire de la carte virtuelle
         Optional<User> cardOwner = userRepository.findById(updateCardRequest.getIdUser());
 
-        Card card = cardRepository.findByUserId(cardOwner);
+        Card card = cardRepository.findByUserId(cardOwner.get().getId());
 
         card.setStatut(updateCardRequest.getStatut());
 

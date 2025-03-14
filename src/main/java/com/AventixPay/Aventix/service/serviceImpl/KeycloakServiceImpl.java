@@ -62,6 +62,8 @@ public class KeycloakServiceImpl implements KeycloakService {
 		UsersResource usersResource = keycloak.realm(realm).users();
 		Response response = usersResource.create(user);
 
+
+
 		if (response.getStatus() == 201) {
 			return "Utilisateur créé avec succès dans Keycloak";
 		} else {

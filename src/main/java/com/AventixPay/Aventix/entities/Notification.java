@@ -6,9 +6,6 @@ import com.AventixPay.Aventix.enumerated.NotificationStatus;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 

@@ -1,7 +1,7 @@
 package com.AventixPay.Aventix.XMLFile;
 
 
-import lombok.Data;
+
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 //@XmlRootElement
-@Data
 public class PaymentTransactionInfo {
 
     private Long transactionId;

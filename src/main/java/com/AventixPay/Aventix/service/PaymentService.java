@@ -12,7 +12,7 @@ import com.AventixPay.Aventix.repositories.CardRepository;
 import com.AventixPay.Aventix.repositories.TransactionRepository;
 import com.AventixPay.Aventix.repositories.UserRepository;
 import com.AventixPay.Aventix.DTO.PaymentRequest;
-import lombok.RequiredArgsConstructor;
+
 //import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 //import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+
 /*@XmlRootElement*/
 public class PaymentService {
     @Autowired

@@ -20,10 +20,10 @@ public class FactureController {
     @Autowired
     private FactureService factureService;
 
-    @PostMapping("/addFacture")
+   /* @PostMapping("/addFacture")
     public ResponseEntity<Facture> addFacture(@RequestBody Facture facture) {
         Facture savedFacture = factureService.saveFacture(facture);
         return new ResponseEntity<>(savedFacture, HttpStatus.CREATED);
-    }
+    }*/
 }
 

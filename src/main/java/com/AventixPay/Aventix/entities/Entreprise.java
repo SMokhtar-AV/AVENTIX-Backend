@@ -3,15 +3,11 @@ package com.AventixPay.Aventix.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
 public class Entreprise {
     @Id

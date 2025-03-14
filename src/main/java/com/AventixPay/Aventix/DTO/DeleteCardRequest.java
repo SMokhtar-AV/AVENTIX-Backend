@@ -1,9 +1,9 @@
 package com.AventixPay.Aventix.DTO;
 
 
-import lombok.Data;
 
-@Data
+
+
 public class DeleteCardRequest {
     private Long cardId;
 
@@ -14,4 +14,5 @@ public class DeleteCardRequest {
     public void setCardId(Long cardId) {
         this.cardId = cardId;
     }
+
 }

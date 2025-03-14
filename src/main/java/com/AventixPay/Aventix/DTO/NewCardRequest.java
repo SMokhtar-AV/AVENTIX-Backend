@@ -2,7 +2,7 @@ package com.AventixPay.Aventix.DTO;
 
 
 import com.AventixPay.Aventix.enumerated.CardStatut;
-import lombok.Data;
+
 
 
 

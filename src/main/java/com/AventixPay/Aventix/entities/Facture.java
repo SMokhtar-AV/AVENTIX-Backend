@@ -3,15 +3,11 @@ package com.AventixPay.Aventix.entities;
 
 import com.AventixPay.Aventix.enumerated.CardStatut;
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import java.time.LocalDate;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
 public class Facture {
     @Id

@@ -3,7 +3,7 @@ package com.AventixPay.Aventix.controllers;
 
 import com.AventixPay.Aventix.DTO.PaymentRequest;
 import com.AventixPay.Aventix.service.PaymentService;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("/payment")
-@RequiredArgsConstructor
+
 public class PaymentController {
 
     @Autowired

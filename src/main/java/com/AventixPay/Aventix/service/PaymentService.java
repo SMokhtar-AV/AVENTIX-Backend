@@ -9,6 +9,7 @@ import com.AventixPay.Aventix.entities.User;
 import com.AventixPay.Aventix.enumerated.CardStatut;
 import com.AventixPay.Aventix.enumerated.StatutTransaction;
 import com.AventixPay.Aventix.repositories.CardRepository;
+import com.AventixPay.Aventix.repositories.FactureRepository;
 import com.AventixPay.Aventix.repositories.TransactionRepository;
 import com.AventixPay.Aventix.repositories.UserRepository;
 import com.AventixPay.Aventix.DTO.PaymentRequest;
@@ -19,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-/*import javax.xml.bind.annotation.XmlRootElement;*/
+import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -28,27 +29,32 @@ import java.util.Optional;
 
 /*@XmlRootElement*/
 public class PaymentService {
-    @Autowired
-    private  CardRepository cardRepository;
-    @Autowired
-    private TransactionRepository transactionRepository;
-    @Autowired
-    private UserRepository userRepository;
 
+    private final CardRepository cardRepository;
+    private final TransactionRepository transactionRepository;
+    private final UserRepository userRepository;
+    private final FactureRepository factureRepository;
+
+    public PaymentService(CardRepository cardRepository, TransactionRepository transactionRepository, UserRepository userRepository, FactureRepository factureRepository) {
+        this.cardRepository = cardRepository;
+        this.transactionRepository = transactionRepository;
+        this.userRepository = userRepository;
+        this.factureRepository = factureRepository;
+    }
 
     // Gestion Paiement + Génération fichier XML
     public String processPayment(PaymentRequest paymentRequest, Long userId) {
 
         //Récupérer utilisateur authentifié
-     //   User authenticatedUser = getAuthenticatedUser();
+        //   User authenticatedUser = getAuthenticatedUser();
 
-        User user = userRepository.findById(userId).get();
+        User authenticatedUser = userRepository.findById(userId).get();
         //Vérifier carte virtuelle persistante dans la bd avec serialNumber fourni
         Card card = cardRepository.findByCardNumber(paymentRequest.getCardNumber())
                 .orElseThrow(() -> new RuntimeException("Card not found"));
 
         //Vérifier si la carte est active
-        if(card.getStatut() != CardStatut.ACTIVE) {
+        if (card.getStatut() != CardStatut.ACTIVE) {
             throw new RuntimeException("Card is not active");
         }
 
@@ -62,8 +68,8 @@ public class PaymentService {
         cardRepository.save(card);
 
         //Ajouter montant du menu au solde du Commercial
-        user.setSolde(user.getSolde() + paymentRequest.getMontant());
-        userRepository.save(user);
+        authenticatedUser.setSolde(authenticatedUser.getSolde() + paymentRequest.getMontant());
+        userRepository.save(authenticatedUser);
 
         //Persister une transaction dans la bd
         Transaction transaction = new Transaction();
@@ -71,7 +77,7 @@ public class PaymentService {
         transaction.setMontant(paymentRequest.getMontant());
         transaction.setStatutTransaction(StatutTransaction.ENCOURS);
         transaction.setDateTransaction(LocalDateTime.now());
-        transaction.setCommercial(user);
+        transaction.setCommercial(authenticatedUser);
         transactionRepository.save(transaction);
 
         //Objet PaymentTransactionInfo pour XML
@@ -85,9 +91,9 @@ public class PaymentService {
                 card.getStatut().toString(),
                 card.getUser().getFirstName(),
                 card.getUser().getLastName(),
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName()
+                authenticatedUser.getId(),
+                authenticatedUser.getFirstName(),
+                authenticatedUser.getLastName()
         );
 
         // Générer un fichier XML
@@ -97,24 +103,26 @@ public class PaymentService {
         return "Paiement réussi par carte virtuelle de :" + paymentRequest.getMontant() + "$";
     }
 
-
-    //Récupérer utilisateur connecté
- /*   public User getAuthenticatedUser() {
-
-        //Récupérer objet représentant utilisateur authentifié du contexte de sécurité
-       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-       //principal instance de KeycloakAuthenticationToken
-        if (principal instanceof KeycloakAuthenticationToken) {
-
-            //casting de l'objet principal en un KeycloakAuthenticationToken
-            KeycloakAuthenticationToken keycloakToken = (KeycloakAuthenticationToken) principal;
-            String email = keycloakToken.getAccount().getKeycloakSecurityContext().getToken().getEmail();
-
-            //Recherche de l'utilisateur sur la bd
-            Optional<User> commercial = userRepository.findByEmail(email);
-            return commercial.orElse(null);
-        }
-        return null;
-    }*/
 }
+
+
+//    //Récupérer utilisateur connecté
+// /*   public User getAuthenticatedUser() {
+//
+//        //Récupérer objet représentant utilisateur authentifié du contexte de sécurité
+//       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//       //principal instance de KeycloakAuthenticationToken
+//        if (principal instanceof KeycloakAuthenticationToken) {
+//
+//            //casting de l'objet principal en un KeycloakAuthenticationToken
+//            KeycloakAuthenticationToken keycloakToken = (KeycloakAuthenticationToken) principal;
+//            String email = keycloakToken.getAccount().getKeycloakSecurityContext().getToken().getEmail();
+//
+//            //Recherche de l'utilisateur sur la bd
+//            Optional<User> commercial = userRepository.findByEmail(email);
+//            return commercial.orElse(null);
+//        }
+//        return null;
+//    }
+//}

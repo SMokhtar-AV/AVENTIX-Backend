@@ -18,6 +18,10 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
+    public PaymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
     @PostMapping("/process")
    // @PreAuthorize("hasAuthority('ROLE_COMMERCIAL')")
     public ResponseEntity<String> processPayment(@RequestBody PaymentRequest paymentRequest, Long userId) {

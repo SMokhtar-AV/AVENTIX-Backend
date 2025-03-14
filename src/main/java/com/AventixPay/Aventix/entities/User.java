@@ -158,5 +158,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Facture> facturesEmises;
 
-
+    @OneToMany(mappedBy="destinataire", cascade=CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notifications;
 }

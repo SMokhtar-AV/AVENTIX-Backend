@@ -16,14 +16,14 @@ import com.AventixPay.Aventix.DTO.UpdateCardRequest;
 import com.AventixPay.Aventix.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-// import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-// import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
+import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
 
 @RestController
 @RequestMapping("/api/card")
@@ -99,6 +99,7 @@ public class CardController {
         cardRepository.deleteById(idCard);  // Use deleteById instead of deleteByID
         return ResponseEntity.ok().build();  // Return OK response after deletion
     }
+
 
     //Activer,Desactiver,Bloquer Carte
     @PostMapping("/updateCardStatut")

@@ -22,13 +22,11 @@ public class Demand {
     private Long id;
     private DemandType type;
     private String message;
-    private String description;
-    private Date date;
 
     @ManyToOne
     @JoinColumn(name="id_user_demande")
     @JsonBackReference("user-demand")
-    private User user;
+    private User demandeur;
 
     @OneToOne
     @JoinColumn(name="demande_notification")
@@ -53,13 +51,17 @@ public class Demand {
         return description;
     }
 
+    public User getDemandeur() {
+        return demandeur;
+    }
+
+    public void setDemandeur(User demandeur) {
+        this.demandeur = demandeur;
+    }
     public Date getDate() {
         return date;
     }
 
-    public User getUser() {
-        return user;
-    }
 
     public Notification getNotification() {
         return notification;
@@ -89,9 +91,6 @@ public class Demand {
         this.date = date;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public void setNotification(Notification notification) {
         this.notification = notification;

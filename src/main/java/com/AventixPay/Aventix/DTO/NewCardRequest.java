@@ -2,12 +2,13 @@ package com.AventixPay.Aventix.DTO;
 
 
 import com.AventixPay.Aventix.enumerated.CardStatut;
-
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 
 
 public class NewCardRequest {
     private String cardNumber;
+    private Double solde;
     private CardStatut cardStatut;
     private String email;
 

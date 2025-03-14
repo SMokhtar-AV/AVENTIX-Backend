@@ -12,10 +12,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 
-
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity
 public class User {
     @Id

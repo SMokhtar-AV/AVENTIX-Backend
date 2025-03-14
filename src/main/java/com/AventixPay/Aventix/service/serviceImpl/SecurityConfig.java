@@ -13,9 +13,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+        .csrf().disable()  // Disable CSRF protection temporarily
             .authorizeHttpRequests()
-                .requestMatchers("/users/**").permitAll()  // Use requestMatchers() instead of antMatchers()
-                .anyRequest().authenticated()
+                .requestMatchers("/users/register").permitAll()  // Allow /register without authentication
+                .requestMatchers("/users/**").permitAll()  // If you want all /users/** endpoints to be public
+                .anyRequest().authenticated()  // All other requests need authentication
                 .and()
             .formLogin()
                 .loginPage("/login")
@@ -23,6 +25,7 @@ public class SecurityConfig {
                 .and()
             .logout()
                 .permitAll();
-		return http.build();
-	}
+        
+        return http.build();
+    }
 }

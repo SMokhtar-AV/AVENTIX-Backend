@@ -7,4 +7,6 @@ import org.keycloak.representations.idm.UserRepresentation;
 public interface KeycloakService {
 
 	List<UserRepresentation> getAllUsers();
+
+	String createUser(String username, String email, String password);
 }

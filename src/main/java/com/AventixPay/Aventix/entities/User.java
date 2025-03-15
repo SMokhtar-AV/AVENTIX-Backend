@@ -145,7 +145,7 @@ public class User {
     private Roles role;
 
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "demandeur")
     @JsonManagedReference("user-demand")
     private List<Demand> demandeRecues;
 

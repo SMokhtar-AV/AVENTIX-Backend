@@ -14,7 +14,7 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 
     List<Card> findAll();
 
-    List<Card> findCardsByEnterpriseId(Long enterpriseId);
+   // List<Card> findCardsByEnterpriseId(Long enterpriseId);
 
     void deleteById(Long id);
 
@@ -22,5 +22,5 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 
     Optional<Card> findByCardNumber(String cardNumber);
 
-    Card findByUserId(Long userId);
+    Card findByUser(Optional<User> cardOwner);
 }

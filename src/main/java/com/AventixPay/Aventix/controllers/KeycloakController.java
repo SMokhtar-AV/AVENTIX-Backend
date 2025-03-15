@@ -24,12 +24,12 @@ public class KeycloakController {
 		this.keycloakService = keycloakService;
 	}
 
-	@PostMapping("/register")
+	/*@PostMapping("/register")
 	public String registerUser(@RequestParam String username, @RequestParam String email,
 			@RequestParam String password) {
 		return keycloakService.createUser(username, email, password);
 	}
-
+*/
 	@GetMapping()
 	public List<UserRepresentation> getAllUsers() {
 		return keycloakService.getAllUsers();

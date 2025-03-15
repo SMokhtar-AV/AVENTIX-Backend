@@ -20,6 +20,10 @@ public class Notification {
     public Notification() {
 
     }
+    public Notification(NotificationType notificationType, String s) {
+        this.type = notificationType;
+        this.message = s;
+    }
 
     public void setId(Long id) {
         this.id = id;

@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response;
 
+import com.AventixPay.Aventix.entities.User;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.UsersResource;
@@ -41,7 +42,7 @@ public class KeycloakServiceImpl implements KeycloakService {
 																							// admin access
 				.clientId("admin-cli") // Required for admin actions
 				.username("admin") // Keycloak admin username
-				.password("root") // Keycloak admin password
+				.password("admin") // Keycloak admin password
 				.build();
 	}
 
@@ -52,12 +53,14 @@ public class KeycloakServiceImpl implements KeycloakService {
 		return users;
 	}
 
-	public String createUser(String username, String email, String password) {
+	public String createUser(User userAventix) {
 		UserRepresentation user = new UserRepresentation();
-		user.setUsername(username);
-		user.setEmail(email);
+		user.setUsername(userAventix.getFirstName());
+		user.setEmail(userAventix.getEmail());
 		user.setEnabled(true);
-		user.setCredentials(Collections.singletonList(createPasswordCredentials(password)));
+		user.setCredentials(Collections.singletonList(createPasswordCredentials(userAventix.getPassword())));
+
+
 
 		UsersResource usersResource = keycloak.realm(realm).users();
 		Response response = usersResource.create(user);

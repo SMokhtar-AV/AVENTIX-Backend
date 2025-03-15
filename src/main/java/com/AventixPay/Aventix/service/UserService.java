@@ -21,9 +21,15 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    KeycloakService keycloakService;
+
+    @Autowired
     private RoleRepository roleRepository;
 
     public User createUser(User user) {
+
+        keycloakService.createUser(user);
+
         return userRepository.save(user);
     }
 

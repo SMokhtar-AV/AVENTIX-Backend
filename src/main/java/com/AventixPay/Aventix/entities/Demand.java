@@ -22,11 +22,13 @@ public class Demand {
     private Long id;
     private DemandType type;
     private String message;
-
+    private String description;
     @ManyToOne
     @JoinColumn(name="id_user_demande")
     @JsonBackReference("user-demand")
     private User demandeur;
+
+    private Date date;
 
     @OneToOne
     @JoinColumn(name="demande_notification")

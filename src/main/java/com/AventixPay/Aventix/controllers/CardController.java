@@ -109,7 +109,7 @@ public class CardController {
         //Récupération du propriétaire de la carte virtuelle
         Optional<User> cardOwner = userRepository.findById(updateCardRequest.getIdUser());
 
-        Card card = cardRepository.findByUserId(cardOwner.get().getId());
+        Card card = cardRepository.findByUser(cardOwner);
 
         card.setStatut(updateCardRequest.getStatut());
 

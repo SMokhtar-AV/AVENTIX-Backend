@@ -57,7 +57,7 @@ public class DemandService {
         demand.setType(demandDetails.getType());
         demand.setMessage(demandDetails.getMessage());
         demand.setDescription(demandDetails.getDescription());
-        demand.setUser(demandDetails.getUser());
+        demand.setDemandeur(demandDetails.getDemandeur());
         demand.setNotification(demandDetails.getNotification());
         return demandRepository.save(demand);
     }
@@ -75,7 +75,7 @@ public class DemandService {
         Roles role = roleRepository.findByRole(roleEnum)
                 .orElseThrow(() -> new RuntimeException("Role ADMIN non trouvé dans la base de données"));
         User admin = userService.findUserByRole(role);
-        demandDetails.setUser(employeur);
+        demandDetails.setDemandeur(employeur);
         demandDetails.setEtat(DemandeEtat.NON_VALIDE);
         demandDetails.setDate(Timestamp.valueOf(LocalDateTime.now()));
         createDemand(demandDetails);

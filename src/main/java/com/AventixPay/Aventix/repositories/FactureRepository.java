@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface FactureRepository extends JpaRepository<Facture, Long> {
-    List<Facture> findAllByCommercialId(Long userId);
+   // List<Facture> findAllByCommercialId(Long userId);
 
-    List<Facture> findAllByEmployeeId(Long userId);
+    //List<Facture> findAllByEmployeeId(Long userId);
 }
 

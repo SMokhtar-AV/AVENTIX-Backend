@@ -30,7 +30,7 @@ public class FactureController {
         this.factureRepository = factureRepository;
     }
 
-    @GetMapping("/factures-commercial")
+ /*   @GetMapping("/factures-commercial")
 
     public List<Facture> getFacturesByCommercialId(Long idCommercial){
         //User commercial = paymentService.getAuthenticatedUser();
@@ -39,9 +39,9 @@ public class FactureController {
         Long id_commercial = 23L;
 
         return factureRepository.findAllByCommercialId(id_commercial);
-    }
+    }*/
 
-    @GetMapping("/factures-employee")
+  /*  @GetMapping("/factures-employee")
    // @PreAuthorize("hasAuthority('ROLE_EMPLOYEE')")
     public List<Facture> getFacturesByEmployeeId(Long idEmployee){
         User employee = new User();
@@ -49,6 +49,6 @@ public class FactureController {
         Long id_employee = employee.getId();
 
         return factureRepository.findAllByCommercialId(id_employee);
-    }
+    }*/
 
 }

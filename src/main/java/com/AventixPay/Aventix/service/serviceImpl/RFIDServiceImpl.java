@@ -35,55 +35,72 @@ public class RFIDServiceImpl implements RFIDService {
         }
 
         try {
-            // Activation du lecteur RFID
+            clearResidualData(serialPort);
             sendCommand(serialPort, "ACTIVER_LECTEUR\n");
 
-            // Lecture des données envoyées par l'Arduino
-            byte[] buffer = new byte[BUFFER_SIZE];
-            int numRead = serialPort.readBytes(buffer, buffer.length);
+            Thread.sleep(50); // Attendre un peu
 
-            if (numRead > 0) {
-                // Conversion des données reçues en chaîne de caractères
-                String uidRaw = new String(Arrays.copyOf(buffer, numRead), StandardCharsets.UTF_8).trim();
+            String receivedData = readFromSerial(serialPort);
 
-                // Nettoyage et conversion en hexadécimal
-                String uidHex = formatToHex(uidRaw);
-                System.out.println("UID RFID reçu : " + uidHex);
-
-                return uidHex;
-            } else {
+            if (receivedData.isEmpty()) {
                 System.err.println("⚠ Aucune donnée reçue !");
                 return null;
             }
+
+            System.out.println("UID reçu : " + receivedData);
+
+            // Envoi de la confirmation au lecteur
+            sendCommand(serialPort, "CONFIRMATION_LUE\n");
+
+            return receivedData;
         } catch (Exception ex) {
             System.err.println("Erreur communication série : " + ex.getMessage());
             return null;
         } finally {
-            serialPort.closePort(); // On ferme le port après utilisation
+            serialPort.closePort();
+        }
+    }
+
+    private String readFromSerial(SerialPort serialPort) {
+        StringBuilder receivedData = new StringBuilder();
+        long startTime = System.currentTimeMillis();
+
+        while (System.currentTimeMillis() - startTime < READ_TIMEOUT) {
+            if (serialPort.bytesAvailable() > 0) {
+                byte[] buffer = new byte[BUFFER_SIZE];
+                int numRead = serialPort.readBytes(buffer, buffer.length);
+                receivedData.append(new String(Arrays.copyOf(buffer, numRead), StandardCharsets.UTF_8));
+            }
+        }
+        return receivedData.toString().trim();
+    }
+
+    /**
+     * Vide les données résiduelles dans le buffer du port série
+     */
+    private void clearResidualData(SerialPort serialPort) {
+        try {
+            byte[] tempBuffer = new byte[BUFFER_SIZE];
+            while (serialPort.bytesAvailable() > 0) {
+                serialPort.readBytes(tempBuffer, tempBuffer.length);
+            }
+        } catch (Exception e) {
+            System.err.println("⚠ Erreur lors de la vidange du buffer : " + e.getMessage());
         }
     }
 
     /**
-     *  Envoie une commande série à l'Arduino
+     * Envoie une commande série à l'Arduino
      */
     private void sendCommand(SerialPort serialPort, String command) {
         try {
             serialPort.getOutputStream().write(command.getBytes(StandardCharsets.UTF_8));
             serialPort.getOutputStream().flush();
-            Thread.sleep(300); // Petit délai pour laisser l'Arduino répondre
+            Thread.sleep(100); // Délai pour laisser l'Arduino traiter la commande
         } catch (Exception e) {
             System.err.println("⚠ Erreur d'envoi de commande : " + e.getMessage());
         }
     }
 
-    /**
-     * Formate l'UID en hexadécimal proprement
-     */
-    private String formatToHex(String uid) {
-        StringBuilder hexString = new StringBuilder();
-        for (char c : uid.toCharArray()) {
-            hexString.append(String.format("%02X", (byte) c));
-        }
-        return hexString.toString();
-    }
+
 }

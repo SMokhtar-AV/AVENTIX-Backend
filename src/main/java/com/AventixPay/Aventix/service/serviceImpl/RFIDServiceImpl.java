@@ -1,11 +1,8 @@
 package com.AventixPay.Aventix.service.serviceImpl;
 
 import com.AventixPay.Aventix.service.RFIDService;
-import com.AventixPay.Aventix.service.UserService;
 import com.fazecast.jSerialComm.SerialPort;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
@@ -16,9 +13,6 @@ public class RFIDServiceImpl implements RFIDService {
     private static final int BAUD_RATE = 115200;
     private static final int READ_TIMEOUT = 5000; // Augmenté à 5000 ms pour éviter les coupures
     private static final int BUFFER_SIZE = 256; // Taille du buffer ajustée
-
-    @Autowired
-    UserService userService;
 
     @Override
     public String readSerialNumberFromRFID() {
@@ -33,25 +27,22 @@ public class RFIDServiceImpl implements RFIDService {
             System.err.println("⚠ Impossible d'ouvrir le port série !");
             return null;
         }
-
         try {
+            //Nettoyer le buffer
             clearResidualData(serialPort);
+
+            //envoi du signal d'activation au lecteur de carte
             sendCommand(serialPort, "ACTIVER_LECTEUR\n");
-
-            Thread.sleep(50); // Attendre un peu
-
+            Thread.sleep(50); // Attendre un peu le temps de la lecture de l'uid par Arduino
             String receivedData = readFromSerial(serialPort);
-
             if (receivedData.isEmpty()) {
                 System.err.println("⚠ Aucune donnée reçue !");
                 return null;
             }
-
             System.out.println("UID reçu : " + receivedData);
 
-            // Envoi de la confirmation au lecteur
+            // Envoi de la confirmation de lecture à Arduino
             sendCommand(serialPort, "CONFIRMATION_LUE\n");
-
             return receivedData;
         } catch (Exception ex) {
             System.err.println("Erreur communication série : " + ex.getMessage());
@@ -60,7 +51,9 @@ public class RFIDServiceImpl implements RFIDService {
             serialPort.closePort();
         }
     }
-
+    /**
+     * lecture du port série
+     */
     private String readFromSerial(SerialPort serialPort) {
         StringBuilder receivedData = new StringBuilder();
         long startTime = System.currentTimeMillis();
@@ -99,6 +92,4 @@ public class RFIDServiceImpl implements RFIDService {
             System.err.println("⚠ Erreur d'envoi de commande : " + e.getMessage());
         }
     }
-
-
 }

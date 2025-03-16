@@ -40,7 +40,15 @@
  			<artifactId>keycloak-admin-client</artifactId>
  			<version>12.0.4</version>
  		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>4.7.0</version> <!-- Vérifiez la dernière version sur Maven Central -->
+		</dependency>
 
 		<dependency>
 			<groupId>com.mysql</groupId>

@@ -74,7 +74,6 @@ public class RFIDServiceImpl implements RFIDService {
         }
         return receivedData.toString().trim();
     }
-
     /**
      * Vide les données résiduelles dans le buffer du port série
      */
@@ -88,7 +87,6 @@ public class RFIDServiceImpl implements RFIDService {
             System.err.println("⚠ Erreur lors de la vidange du buffer : " + e.getMessage());
         }
     }
-
     /**
      * Envoie une commande série à l'Arduino
      */

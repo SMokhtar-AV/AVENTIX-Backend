@@ -92,5 +92,4 @@ public class RFIDServiceImpl implements RFIDService {
             System.err.println("⚠ Erreur d'envoi de commande : " + e.getMessage());
         }
     }
-
 }

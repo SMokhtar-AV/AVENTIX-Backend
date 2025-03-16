@@ -41,10 +41,14 @@ public class PaymentService {
         this.userRepository = userRepository;
         this.factureRepository = factureRepository;
     }
+    @Autowired
+    private RFIDService rfidService;
 
     // Gestion Paiement + Génération fichier XML
     public String processPayment(PaymentRequest paymentRequest, Long userId) {
 
+        // Appel à la méthode pour lire le numéro de la carte
+        String cardNumber = rfidService.readSerialNumberFromRFID();
         //Récupérer utilisateur authentifié
         //   User authenticatedUser = getAuthenticatedUser();
 

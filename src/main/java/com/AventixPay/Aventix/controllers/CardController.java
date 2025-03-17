@@ -1,29 +1,24 @@
 package com.AventixPay.Aventix.controllers;
 
 
-import com.AventixPay.Aventix.entities.Card;
-import com.AventixPay.Aventix.entities.Entreprise;
-import com.AventixPay.Aventix.entities.Notification;
-import com.AventixPay.Aventix.entities.User;
+import com.AventixPay.Aventix.entities.*;
+import com.AventixPay.Aventix.enumClass.DemandeEtat;
+import com.AventixPay.Aventix.enumClass.Role;
 import com.AventixPay.Aventix.enumerated.CardStatut;
 import com.AventixPay.Aventix.enumerated.NotificationStatus;
-import com.AventixPay.Aventix.repositories.CardRepository;
-import com.AventixPay.Aventix.repositories.EntrepriseRepository;
-import com.AventixPay.Aventix.repositories.UserRepository;
+import com.AventixPay.Aventix.repositories.*;
 import com.AventixPay.Aventix.DTO.DeleteCardRequest;
 import com.AventixPay.Aventix.DTO.NewCardRequest;
 import com.AventixPay.Aventix.DTO.UpdateCardRequest;
 import com.AventixPay.Aventix.service.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasRole;
 
 @RestController
 @RequestMapping("/api/card")
@@ -41,6 +36,12 @@ public class CardController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private DemandRepository demandRepository;
+    @Autowired
+    private NotificationRepository notificationRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     //Récupérer Liste Entreprises
     @GetMapping("/entreprises")
@@ -60,13 +61,22 @@ public class CardController {
     @PostMapping("/create")
     public ResponseEntity<Card> createCard(@RequestBody NewCardRequest newCardRequest) {
         Optional<User> user = userRepository.findByEmail(newCardRequest.getEmail());
+        User user2 = user.get();
 
+        Roles role = roleRepository.findByRole(Role.ADMIN).get();
+        List<User> listUsers = user2.getEntreprise().getListUser();
+        User userEmpl = listUsers.stream().filter(roleUser -> roleUser.getRole().equals(role)).findFirst().get();
+
+
+        Demand demand = demandRepository.findById(newCardRequest.getDemandeId()).get();
+        demand.setEtat(DemandeEtat.VALIDE);
+        demandRepository.save(demand);
         Notification notification = new Notification();
-        notification.setMessage("Votre carte a été créée avec succès");
         notification.setDateNotification(LocalDate.now());
         notification.setNotificationStatus(NotificationStatus.NONLUE);
-        notification.setDestinataire(user.get());
-
+        notification.setMessage("La carte de votre employe "+ user2.getFirstName() + " " + user2.getLastName()+ " est cree");
+        notification.setDestinataire(userEmpl);
+        notificationRepository.save(notification);
         if(user.isPresent()) {
             Card card = new Card();
             card.setCardNumber(newCardRequest.getCardNumber());

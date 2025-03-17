@@ -2,6 +2,8 @@ package com.AventixPay.Aventix.entities;
 
 
 import com.AventixPay.Aventix.enumerated.StatutTransaction;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 
@@ -21,9 +23,11 @@ public class Transaction {
     private StatutTransaction statutTransaction;
 
     @ManyToOne
+    @JsonBackReference
     private User commercial;
 
     @ManyToOne
+    @JsonBackReference
     private Card card;
 
     public void setId(Long id) {

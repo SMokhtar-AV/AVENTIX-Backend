@@ -7,6 +7,26 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 
 public class NewCardRequest {
+    private Long demandeId;
+
+    public Long getDemandeId() {
+        return demandeId;
+    }
+
+    public void setDemandeId(Long demandeId) {
+        this.demandeId = demandeId;
+    }
+
+    public void setSolde(Double solde) {
+        this.solde = solde;
+    }
+
+
+
+    public Double getSolde() {
+        return solde;
+    }
+
     private String cardNumber;
     private Double solde;
     private CardStatut cardStatut;

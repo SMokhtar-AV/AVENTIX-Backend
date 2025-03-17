@@ -41,18 +41,15 @@ public class PaymentService {
         this.userRepository = userRepository;
         this.factureRepository = factureRepository;
     }
-    @Autowired
-    private RFIDService rfidService;
+
 
     // Gestion Paiement + Génération fichier XML
-    public String processPayment(PaymentRequest paymentRequest, Long userId) {
+    public String processPayment(PaymentRequest paymentRequest) {
 
-        // Appel à la méthode pour lire le numéro de la carte
-        String cardNumber = rfidService.readSerialNumberFromRFID();
         //Récupérer utilisateur authentifié
         //   User authenticatedUser = getAuthenticatedUser();
 
-        User authenticatedUser = userRepository.findById(userId).get();
+        User authenticatedUser = userRepository.findByEmail(paymentRequest.getEmail()).get();
         //Vérifier carte virtuelle persistante dans la bd avec serialNumber fourni
         Card card = cardRepository.findByCardNumber(paymentRequest.getCardNumber())
                 .orElseThrow(() -> new RuntimeException("Card not found"));

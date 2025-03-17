@@ -1,21 +1,33 @@
 package com.AventixPay.Aventix.service.serviceImpl;
 
+import com.AventixPay.Aventix.DTO.PaymentRequest;
+import com.AventixPay.Aventix.service.PaymentService;
 import com.AventixPay.Aventix.service.RFIDService;
+import com.AventixPay.Aventix.service.UserService;
 import com.fazecast.jSerialComm.SerialPort;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 @Service
+
 public class RFIDServiceImpl implements RFIDService {
 
-    private static final String PORT_NAME = "COM5"; // Port de communication avec l'Arduino
+    private static final String PORT_NAME = "/dev/ttyACM0"; // port de lecture
     private static final int BAUD_RATE = 115200;
-    private static final int READ_TIMEOUT = 5000; // Augmenté à 5000 ms pour éviter les coupures
-    private static final int BUFFER_SIZE = 256; // Taille du buffer ajustée
+    private static final int READ_TIMEOUT = 2000; // Délai d'attente de 2000 ms
+    private static final int BUFFER_SIZE = 2048; // Taille du buffer pour garantir que l'UID soit correctement capturé
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    PaymentService paymentService;
 
     @Override
-    public String readSerialNumberFromRFID() {
+    public String readSerialNumberFromRFID(PaymentRequest paymentRequest) {
         SerialPort serialPort = SerialPort.getCommPort(PORT_NAME);
         serialPort.setBaudRate(BAUD_RATE);
         serialPort.setNumDataBits(8);
@@ -27,6 +39,7 @@ public class RFIDServiceImpl implements RFIDService {
             System.err.println("⚠ Impossible d'ouvrir le port série !");
             return null;
         }
+
         try {
             //Nettoyer le buffer
             clearResidualData(serialPort);
@@ -35,12 +48,16 @@ public class RFIDServiceImpl implements RFIDService {
             sendCommand(serialPort, "ACTIVER_LECTEUR\n");
             Thread.sleep(50); // Attendre un peu le temps de la lecture de l'uid par Arduino
             String receivedData = readFromSerial(serialPort);
+
             if (receivedData.isEmpty()) {
                 System.err.println("⚠ Aucune donnée reçue !");
                 return null;
             }
             System.out.println("UID reçu : " + receivedData);
 
+            paymentRequest.setCardNumber(receivedData);
+
+            paymentService.processPayment(paymentRequest);
             // Envoi de la confirmation de lecture à Arduino
             sendCommand(serialPort, "CONFIRMATION_LUE\n");
             return receivedData;
@@ -51,6 +68,7 @@ public class RFIDServiceImpl implements RFIDService {
             serialPort.closePort();
         }
     }
+
     /**
      * lecture du port série
      */
@@ -67,6 +85,7 @@ public class RFIDServiceImpl implements RFIDService {
         }
         return receivedData.toString().trim();
     }
+
     /**
      * Vide les données résiduelles dans le buffer du port série
      */
@@ -80,6 +99,7 @@ public class RFIDServiceImpl implements RFIDService {
             System.err.println("⚠ Erreur lors de la vidange du buffer : " + e.getMessage());
         }
     }
+
     /**
      * Envoie une commande série à l'Arduino
      */
@@ -94,3 +114,5 @@ public class RFIDServiceImpl implements RFIDService {
     }
 
 }
+
+

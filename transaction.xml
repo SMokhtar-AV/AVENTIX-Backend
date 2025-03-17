@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<paymentTransactionInfo>
+    <cardNumber>3c0b470b</cardNumber>
+    <cardStatut>ACTIVE</cardStatut>
+    <commercialFirstName>karl</commercialFirstName>
+    <commercialId>1</commercialId>
+    <commercialLastName>dino</commercialLastName>
+    <dateTransaction/>
+    <montant>1000.0</montant>
+    <ownerFirstName>Andre</ownerFirstName>
+    <ownerLastName>Andre</ownerLastName>
+    <statutTransaction>ENCOURS</statutTransaction>
+    <transactionId>2</transactionId>
+    <validityDate/>
+</paymentTransactionInfo>

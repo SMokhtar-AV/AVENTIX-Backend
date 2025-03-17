@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @Entity
-@Table(name="usr")
+@Table(name="user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -159,15 +159,22 @@ public class User {
     @JsonManagedReference("user-demand")
     private List<Demand> demandeRecues;
 
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
 
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
 
     @OneToMany(mappedBy = "commercial")
-
+    @JsonManagedReference
     private List<Transaction> transactionsRecues;
 
     @OneToMany(mappedBy = "user")
     private List<Facture> facturesEmises;
 
     @OneToMany(mappedBy="destinataire", cascade=CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Notification> notifications;
 }

@@ -2,6 +2,8 @@ package com.AventixPay.Aventix.entities;
 
 
 import com.AventixPay.Aventix.enumerated.CardStatut;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 
@@ -27,6 +29,7 @@ public class Card {
     private User user;
 
     @OneToMany(mappedBy = "card")
+    @JsonManagedReference
     private List<Transaction> transactionList;
 
 

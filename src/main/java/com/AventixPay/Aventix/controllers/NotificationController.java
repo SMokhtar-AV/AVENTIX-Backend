@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/notifications")
+@CrossOrigin("*")
 public class NotificationController {
 
     private final NotificationService notificationService;
@@ -43,4 +44,26 @@ public class NotificationController {
         notificationService.deleteNotification(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{notificationId}/markAsRead")
+    public ResponseEntity<Void> markAsRead(@PathVariable Long notificationId) {
+        notificationService.markNotificationAsRead(notificationId);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @GetMapping("/user/{email}")
+    public ResponseEntity<List<Notification>> getUserNotifications(@PathVariable String email) {
+        return ResponseEntity.ok(notificationService.getUserNotifications(email));
+
+    }
+
+
+    @PutMapping("/read-all")
+    public ResponseEntity<Void> markAllAsRead(@RequestBody String email) {
+        notificationService.markAllAsRead(email);
+        return ResponseEntity.ok().build();
+    }
+
+
 }

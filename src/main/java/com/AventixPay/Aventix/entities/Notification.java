@@ -5,6 +5,7 @@ import com.AventixPay.Aventix.enumClass.NotificationType;
 import com.AventixPay.Aventix.enumerated.NotificationStatus;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDate;
@@ -94,6 +95,17 @@ public class Notification {
     private LocalDate dateNotification;
     private NotificationStatus notificationStatus;
 
+    @Column(name = "is_read")
+    private Boolean isRead;
+
+    public Boolean getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(boolean read) {
+        isRead = read;
+    }
+
     @OneToOne(mappedBy = "notification")
     @JsonIgnore
     private Demand demand;
@@ -105,6 +117,7 @@ public class Notification {
 
     @ManyToOne
     @JoinColumn(name="user_id")
+    @JsonBackReference
     private User destinataire;
 
 }

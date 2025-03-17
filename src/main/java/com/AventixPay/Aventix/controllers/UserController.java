@@ -58,6 +58,12 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/email")
+    public ResponseEntity<User> getUsersByEmail(@RequestParam String email) {
+        User user = userService.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+
     @GetMapping("/roles/all")
     public ResponseEntity<List<Roles>> getAllRoles() {
         List<Roles> roles = roleRepository.findAll();

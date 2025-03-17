@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-//@XmlRootElement
+@XmlRootElement
 public class PaymentTransactionInfo {
 
     private Long transactionId;
@@ -51,6 +51,9 @@ public class PaymentTransactionInfo {
         this.commercialId = commercialId;
         this.commercialFirstName = commercialFirstName;
         this.commercialLastName = commercialLastName;
+    }
+
+    public PaymentTransactionInfo() {
     }
 
     @XmlElement
